@@ -1,0 +1,15 @@
+<h1>Configuração do Bot</h1>
+
+<% if @user_config %>
+  <p><strong>Nome do Bot:</strong> <%= @user_config.nome_bot %></p>
+  <p><strong>Temperatura:</strong> <%= @user_config.temperatura %></p>
+  <p><strong>Finalidade:</strong> <%= @user_config.finalidade %></p>
+  <p><strong>Base de Dados:</strong> <%= @user_config.base_de_dados %></p>
+  <p><strong>Estrutura de Desejo:</strong> <%= @user_config.estrutura_desejo %></p>
+  <p><strong>Exemplo de Referência:</strong> <%= @user_config.exemplo_referencia %></p>
+
+  <%= link_to 'Editar', edit_user_config_path(@user_config), class: 'btn' %> |
+  <%= link_to 'Excluir', user_config_path(@user_config), method: :delete, data: { confirm: 'Tem certeza que deseja excluir esta configuração?' }, class: 'btn-danger' %>
+<% else %>
+  <p>Nenhuma configuração encontrada.</p>
+<% end %>

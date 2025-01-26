@@ -1,0 +1,9 @@
+<!-- app/views/video_messages/_message.html.erb -->
+<div class="flex items-start space-x-3 mb-2">
+  <% if message.user %>  <!-- Verifique se o usuário está presente -->
+    <span class="text-teal-300 font-semibold"><%= message.user.email.split('@').first %>:</span>
+  <% else %>
+    <span class="text-teal-300 font-semibold">Usuário Desconhecido:</span>
+  <% end %>
+  <p class="text-gray-200 ml-2"><%= message.content %></p>
+</div>

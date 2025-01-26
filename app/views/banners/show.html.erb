@@ -1,0 +1,12 @@
+<br><br><br><h1 class="text-4xl font-extrabold text-center text-gray-100 mb-8">Detalhes do Banner</h1>
+
+<div class="max-w-4xl mx-auto bg-black/60 backdrop-blur-lg p-8 rounded-lg shadow-2xl border border-gray-800">
+  <div class="mb-6">
+    <%= image_tag @banner.image, alt: "Banner", class: "w-full rounded-lg shadow-md" if @banner.image.attached? %>
+  </div>
+  <p class="text-gray-300 text-lg mb-4">
+    <strong>Link:</strong> 
+    <%= link_to @banner.link, @banner.link, target: "_blank", class: "text-blue-400 hover:text-blue-500 underline" %>
+  </p>
+  <%= link_to "Voltar", banners_path, class: "inline-block text-indigo-400 hover:text-indigo-500 underline font-semibold" %>
+</div>

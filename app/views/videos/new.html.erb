@@ -1,0 +1,80 @@
+<br>
+<div class="bg-gray-800 bg-opacity-90 p-8 rounded-lg shadow-lg">
+  <!-- Título -->
+  <h1 class="text-3xl font-semibold text-white mb-6 text-center">Nova Live</h1>
+
+  <!-- Formulário -->
+  <%= form_with(model: @video, local: true) do |form| %>
+    <% if @video.errors.any? %>
+      <!-- Box de Erros -->
+      <div class="bg-red-600 bg-opacity-90 text-white p-4 rounded-md mb-4">
+        <h2 class="font-semibold mb-2">
+          <%= pluralize(@video.errors.count, "erro") %> impediu este vídeo de ser salvo:
+        </h2>
+        <ul class="list-disc pl-5">
+          <% @video.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Campo: Título -->
+    <div class="mb-4">
+      <%= form.label :title, "Título", class: "text-white text-sm font-medium" %>
+      <%= form.text_field :title, 
+            class: "w-full p-3 mt-1 bg-gray-700 bg-opacity-50 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+    </div>
+
+    <!-- Campo: Descrição -->
+    <div class="mb-4">
+      <%= form.label :description, "Descrição", class: "text-white text-sm font-medium" %>
+      <%= form.text_area :description, 
+            class: "w-full p-3 mt-1 bg-gray-700 bg-opacity-50 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+    </div>
+
+    <!-- Campo: Código de Incorporação -->
+    <div class="mb-4">
+      <%= form.label :embed_code, "Código de Incorporação", class: "text-white text-sm font-medium" %>
+      <%= form.text_area :embed_code, 
+            class: "w-full p-3 mt-1 bg-gray-700 bg-opacity-50 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+    </div>
+
+    <!-- Botão de Salvar -->
+    <div class="mt-6">
+      <%= form.submit "Salvar", 
+            class: "w-full p-3 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    </div>
+  <% end %>
+
+  <!-- Link Voltar -->
+  <div class="text-center mt-4">
+    <%= link_to 'Voltar', videos_path, class: "inline-block text-blue-400 hover:text-blue-500" %>
+  </div>
+</div>
+
+<style>
+.btn-primary {
+  display: inline-block;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b); /* Gradiente quente */
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 12px 24px;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, #ff6a5a, #fd9e6b); /* Gradiente no hover */
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+</style>

@@ -1,0 +1,242 @@
+<br><br>
+<% if @user_configs.any? %>
+
+<h1 id="bot-name" class="flex items-center justify-center text-xl font-semibold text-white space-x-2 mb-4">
+  <!-- Ícone ao lado do texto -->
+  <i class="fas fa-robot text-4xl text-indigo-600"></i>
+  <span class="text-lg">Chat com <%= @user_config.nome_bot %></span>
+</h1>
+
+<!-- Seleção de Configuração -->
+<label for="config-id" class="text-gray-200 text-sm">Selecione uma Configuração:</label>
+<select 
+  id="config-id" 
+  name="config_id" 
+  class="bg-gray-700 text-white px-3 py-2 rounded-md w-full mb-4 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-600 transition-all"
+  onchange="updateBotImage()">
+  <% @user_configs.each do |config| %>
+    <option 
+      value="<%= config.id %>" 
+      data-bot-name="<%= config.nome_bot %>" 
+      data-image="<%= config.imagem.attached? ? url_for(config.imagem) : asset_path('default_image.jpg') %>">
+      <%= config.nome_bot %>
+    </option>
+  <% end %>
+</select>
+
+<br>
+
+<div id="bot-image-container" class="w-16 mt-5 h-16 rounded-full mx-auto -mt-8 mb-4 border-4 border-indigo-600 shadow-lg transform hover:scale-105 transition-all">
+ <%= image_tag(@user_config&.imagem&.attached? ? url_for(@user_config.imagem) : asset_path('default_image.jpg'), 
+  class: 'w-full h-full object-cover rounded-full', id: 'bot-image') %>
+
+</div>
+
+<script>
+  // Função para atualizar a imagem com base na configuração selecionada
+  function updateBotImage() {
+    const select = document.getElementById('config-id');
+    const selectedOption = select.options[select.selectedIndex];
+    const imageUrl = selectedOption.getAttribute('data-image');
+    const imageElement = document.getElementById('bot-image');
+
+    if (imageElement) {
+      imageElement.src = imageUrl;
+    }
+  }
+</script>
+
+
+
+<div id="chatbox" class="bg-gray-800 bg-opacity-90 text-white p-4 rounded-lg shadow-lg h-96 overflow-y-auto mt-4 flex flex-col">
+  <!-- As mensagens do chat vão aqui -->
+  <div id="messages" class="flex-1 space-y-4 overflow-y-auto pb-12">
+    <!-- As mensagens vão aparecer aqui -->
+  </div>
+
+  <!-- O formulário vai ficar fixo na parte inferior -->
+</div>
+
+<div class="w-full flex items-center bg-gray-800 p-3 rounded-lg">
+  <form id="chat-form" data-turbo="false" class="w-full flex items-center space-x-3">
+    <input type="text" id="message" placeholder="Digite sua mensagem" class="bg-gray-700 text-white p-4 w-full rounded-l-lg focus:outline-none focus:ring-4 focus:ring-indigo-500 placeholder-gray-400 transition-all duration-300 ease-in-out text-sm shadow-inner hover:bg-gray-600 focus:ring-offset-2 focus:ring-opacity-80">
+    <button type="submit" class="bg-indigo-600 text-white p-3 rounded-r-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-opacity-80 transition-all duration-300 ease-in-out shadow-md transform hover:scale-105">
+      <i class="fas fa-paper-plane"></i> <!-- Ícone de envio -->
+    </button>
+  </form>
+</div>
+
+<% else %>
+  <h1 class="text-white text-3xl font-semibold mb-4">Nenhuma Configuração Disponível</h1>
+  <p class="text-gray-300">Por favor, <a href="<%= new_user_config_path %>" class="text-indigo-400 hover:text-indigo-300">crie uma configuração</a> para usar o chat.</p>
+<% end %>
+
+<!-- Indicador de carregamento -->
+<div id="loading" class="hidden text-center mt-4 text-white">
+  <div role="status">
+    <center>
+      <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+      </svg>
+    </center>
+  </div>
+</div>
+
+<style>
+  /* Estilos para o chat */
+  #chatbox {
+    background-color: rgba(45, 45, 45, 0.85); /* Fundo com transparência */
+    border-radius: 10px;
+    padding: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Estilo das mensagens do bot */
+  .bot-message {
+    background-color: rgba(26, 26, 26, 0.8); /* Mensagem com transparência */
+    color: white;
+    padding: 12px;
+    border-radius: 12px;
+    max-width: 70%;
+    align-self: flex-start;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Estilo das mensagens do usuário */
+  .user-message {
+    background-color: rgba(76, 175, 80, 0.8); /* Mensagem do usuário com transparência */
+    color: white;
+    padding: 12px;
+    border-radius: 12px;
+    max-width: 70%;
+    align-self: flex-end;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Estilo para o indicador de carregamento */
+  #loading {
+    display: none;
+  }
+</style>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const chatForm = document.getElementById("chat-form");
+  const loadingIndicator = document.getElementById("loading");
+  const chatbox = document.getElementById("chatbox");
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+  const configSelect = document.getElementById("config-id");
+  const botImageContainer = document.getElementById("bot-image-container");
+  const botNameElement = document.getElementById("bot-name");
+
+  // Função para atualizar a imagem e o nome do bot
+  const updateBot = () => {
+    const selectedOption = configSelect.selectedOptions[0];
+    const botName = selectedOption.getAttribute("data-bot-name");
+    const imageUrl = selectedOption.getAttribute("data-image");
+
+    // Atualiza o nome do bot
+    botNameElement.innerHTML = `Chat com ${botName}`;
+
+    // Atualiza a imagem do bot
+    if (imageUrl) {
+      botImageContainer.innerHTML = `<img src="${imageUrl}" class="w-full h-full object-cover rounded-full" />`;
+    } else {
+      botImageContainer.innerHTML = `<img src="default_image_url" class="w-full h-full object-cover rounded-full" />`; // Imagem padrão
+    }
+  };
+
+  // Atualiza o bot assim que o usuário selecionar uma configuração
+  configSelect.addEventListener("change", updateBot);
+
+  // Carrega a imagem inicial do bot, caso haja uma configuração selecionada
+  updateBot();
+
+  chatForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const messageInput = document.getElementById("message");
+    const message = messageInput.value;
+    const configId = configSelect.value;
+
+    if (!message.trim()) {
+      alert("Digite uma mensagem antes de enviar!");
+      return;
+    }
+
+    try {
+      loadingIndicator.style.display = "block"; // Exibe o indicador de loading
+
+      const response = await fetch("/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+        body: JSON.stringify({
+          message: message,
+          config_id: configId,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Erro desconhecido");
+      }
+
+      const data = await response.json();
+
+      // Adiciona a resposta do usuário e do bot
+      chatbox.innerHTML += `
+        <div class="user-message">${message}</div>
+        <div class="bot-message">${data.response ? formatBotResponse(data.response) : "Erro ao obter resposta do bot"}</div>
+      `;
+      chatbox.scrollTop = chatbox.scrollHeight;
+      messageInput.value = "";
+    } catch (error) {
+      alert("Erro ao conectar com o servidor: " + error.message);
+    } finally {
+      loadingIndicator.style.display = "none"; // Oculta o indicador de loading
+    }
+  });
+
+  // Função para formatar a resposta do bot, adicionando HTML quando necessário
+const formatBotResponse = (response) => {
+  // Formatar texto em negrito
+  response = response.replace(/(\*\*([^*]+)\*\*)/g, "<b>$2</b>"); // **texto** -> <b>texto</b>
+
+  // Formatar texto em itálico
+  response = response.replace(/(\*([^*]+)\*)/g, "<i>$2</i>"); // *texto* -> <i>texto</i>
+
+  // Formatar listas não ordenadas
+  response = response.replace(/(\n- [^\n]+)/g, "<ul><li>$1</li></ul>"); // Lista simples
+
+  // Formatar listas ordenadas
+  response = response.replace(/(\n\d+\. [^\n]+)/g, "<ol><li>$1</li></ol>"); // Lista numerada
+
+  // Formatar blocos de código
+  response = response.replace(/```([^`]+)```/g, "<pre><code>$1</code></pre>"); // Bloco de código entre ```
+
+  // Formatar código inline
+  response = response.replace(/`([^`]+)`/g, "<code>$1</code>"); // Código em linha entre `
+
+  // Detectar e formatar comandos SQLMap
+  response = response.replace(/(sqlmap\s[^ ]+.*)/g, "<pre><code>$1</code></pre>"); // Comandos SQLMap
+
+  // Detectar e formatar comandos SQL
+  response = response.replace(/(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|SHOW|DESCRIBE|GRANT|REVOKE|USE|EXPLAIN|SHOW DATABASES|SHOW TABLES|-- .*)/gi, "<pre><code>$1</code></pre>"); // Comandos SQL
+
+  // Retorna a resposta formatada
+  return response;
+};
+
+
+});
+</script>
+

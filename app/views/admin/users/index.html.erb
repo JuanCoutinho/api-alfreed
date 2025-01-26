@@ -1,0 +1,38 @@
+<h1 class="text-3xl font-semibold text-center my-6 text-white">Painel Admnistração</h1>
+
+<div class="overflow-x-auto shadow-md sm:rounded-lg bg-gray-800">
+  <table class="min-w-full text-sm text-left text-gray-200">
+    <thead class="text-xs text-gray-300 uppercase bg-gray-700">
+      <tr>
+        <th class="px-6 py-3 border-b border-gray-600">Email</th>
+        <th class="px-6 py-3 border-b border-gray-600">Status</th>
+        <th class="px-6 py-3 border-b border-gray-600">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr class="hover:bg-gray-700 transition duration-300 ease-in-out">
+          <td class="px-6 py-4 border-b border-gray-600 font-medium"><%= user.email %></td>
+          <td class="px-6 py-4 border-b border-gray-600">
+            <span class="<%= user.approved? ? 'text-green-400' : 'text-red-400' %>">
+              <%= user.approved? ? "Yes" : "No" %>
+            </span>
+          </td>
+          <td class="px-6 py-4 border-b border-gray-600">
+            <div class="flex space-x-2">
+              <!-- Botão para aprovar -->
+              <%= button_to "Aprovar", approve_admin_user_path(user), 
+                             method: :patch, 
+                             class: "inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition duration-200" %>
+
+              <!-- Botão para rejeitar -->
+              <%= button_to "Rejeitar", reject_admin_user_path(user), 
+                             method: :patch, 
+                             class: "inline-block bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition duration-200" %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

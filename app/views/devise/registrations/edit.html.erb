@@ -1,0 +1,58 @@
+<br><br>
+<h2 class="text-3xl font-extrabold text-center mb-10 text-white">Editar Perfil</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-6 max-w-xl mx-auto bg-gray-900 p-8 rounded-xl shadow-2xl text-gray-200 border border-gray-800" }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <!-- Campo de Email -->
+  <div class="space-y-2">
+    <%= f.label :email, "E-mail", class: "block text-sm font-medium text-gray-400" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full p-3 rounded-md bg-gray-800 bg-opacity-80 border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-200" %>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div class="text-sm text-yellow-400">
+      Atualmente aguardando confirmação para: <%= resource.unconfirmed_email %>
+    </div>
+  <% end %>
+
+  <!-- Campo de Nova Senha -->
+  <div class="space-y-2">
+    <%= f.label :password, "Nova Senha", class: "block text-sm font-medium text-gray-400" %>
+    <%= f.password_field :password, autocomplete: "new-password", class: "w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-200" %>
+    <% if @minimum_password_length %>
+      <em class="text-xs text-gray-500 block mt-1"><%= @minimum_password_length %> caracteres no mínimo</em>
+    <% end %>
+  </div>
+
+  <!-- Confirmação de Nova Senha -->
+  <div class="space-y-2">
+    <%= f.label :password_confirmation, "Confirmar Nova Senha", class: "block text-sm font-medium text-gray-400" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-200" %>
+  </div>
+
+  <!-- Senha Atual -->
+  <div class="space-y-2">
+    <%= f.label :current_password, "Senha Atual", class: "block text-sm font-medium text-gray-400" %>
+    <%= f.password_field :current_password, autocomplete: "current-password", class: "w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-200" %>
+    <span class="text-xs text-gray-500 block mt-1">Precisamos da sua senha atual para confirmar as alterações.</span>
+  </div>
+
+  <!-- Botão de Atualização -->
+  <div class="text-center">
+    <%= f.submit "Atualizar", class: "w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg shadow-md transition-all font-semibold" %>
+  </div>
+<% end %>
+
+<!-- Seção de Cancelamento de Conta -->
+<h3 class="text-lg font-semibold text-center mt-12 text-red-400">Cancelar Minha Conta</h3>
+<div class="text-center mt-4">
+  <p class="text-gray-400 mb-4">Não está satisfeito? Você pode cancelar sua conta permanentemente.</p>
+  <%= button_to "Cancelar minha conta", registration_path(resource_name), data: { confirm: "Tem certeza?" }, method: :delete, class: "bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg shadow-md transition-all inline-block font-semibold" %>
+</div>
+
+
+<!-- Link de Voltar -->
+<div class="text-center mt-8">
+  <%= link_to "Voltar", :back, class: "text-blue-400 hover:text-blue-500 underline text-sm font-medium transition-all" %>
+</div>

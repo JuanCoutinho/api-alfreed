@@ -1,0 +1,117 @@
+<br><br>
+<main class="flex justify-start items-center w-full">
+  <% if (banner = banner_by_id(1)) %>
+    <div class="banner p-4 bg-gray-800 w-full rounded-lg shadow-lg max-w-3xl text-left">
+      <%= link_to banner.link, target: '_blank', class: 'block' do %>
+        <%= image_tag(banner.image, alt: 'Banner Promocional', class: 'w-full h-auto rounded-md hover:opacity-90 transition-opacity max-h-56 object-cover') %>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-center text-gray-400">Banner não encontrado.</p>
+  <% end %>
+</main>
+
+
+<main class="px-4 sm:px-6 md:px-12 bg-opacity-90 bg-black text-white rounded-lg">
+  
+  <div class="mt-10 p-1 p-3">
+    <% if current_user %>
+      <h1 class="text-4xl sm:text-5xl font-bold">
+        Seja Bem-vindo(a), <span class="text-indigo-500"><%= current_user.email %></span>!
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-gray-300">
+        Clique para acessar as abas do projeto.
+      </p>
+    <% else %>
+      <h1 class="text-4xl sm:text-5xl font-bold text-gray-300">
+        Bem-vindo ao Alfred
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-gray-300">
+        Faça login para acessar mais funcionalidades.
+      </p>
+    <% end %>
+  </div>
+
+  <!-- Carrossel de Cards -->
+  <div class="relative mt-12">
+    <!-- Botão para o lado esquerdo -->
+    <button id="prev-button" class="hidden sm:block absolute top-1/2 left-2 -translate-y-1/2 bg-gray-800 bg-opacity-70 hover:bg-gray-700 text-white p-2 sm:p-3 rounded-full shadow-lg z-10">
+      <i class="fas fa-chevron-left text-lg sm:text-xl"></i>
+    </button>
+
+    <!-- Contêiner do Carrossel -->
+    <div id="carousel-container" class="overflow-hidden">
+      <div
+        id="carousel"
+        class="flex flex-col sm:flex-row space-y-6 sm:space-y-0 sm:space-x-4 transition-transform duration-500"
+      >
+        <% @cards.each do |card| %>
+    <div class="bg-gray-800 shadow-lg rounded-lg overflow-hidden min-w-[400px] w-[400px] flex-shrink-0 flex flex-col">
+        <h3 class="text-lg font-bold text-white mb-1 text-center"><%= card[:title] %></h3>
+
+      <!-- Imagem -->
+      <div class="w-full h-60">
+        <img src="<%= asset_path(card[:image]) %>" alt="<%= card[:title] %>" class="object-cover w-full h-full">
+      </div>
+
+      <!-- Conteúdo -->
+      <div class=" flex flex-col flex-grow">
+        <p class="text-gray-400 text-xs text-center flex-grow"><%= card[:description] %></p>
+      </div>
+
+      <!-- Botão -->
+      <div class="p-3">
+        <%= link_to card[:link_text], card[:link_path], class: 'block bg-indigo-500 text-white py-1 px-4 rounded-full hover:bg-indigo-400 transition-all text-center text-sm' %>
+      </div>
+    </div>
+  <% end %>
+      </div>
+    </div>
+
+    <!-- Botão para o lado direito -->
+    <button id="next-button" class="hidden sm:block absolute top-1/2 right-2 -translate-y-1/2 bg-gray-800 bg-opacity-70 hover:bg-gray-700 text-white p-2 sm:p-3 rounded-full shadow-lg z-10">
+      <i class="fas fa-chevron-right text-lg sm:text-xl"></i>
+    </button>
+  </div>
+
+
+</main>
+
+<script>
+  const carousel = document.getElementById('carousel');
+  const prevButton = document.getElementById('prev-button');
+  const nextButton = document.getElementById('next-button');
+  const carouselContainer = document.getElementById('carousel-container');
+
+  let scrollPosition = 0;
+
+  const updateCarousel = () => {
+    const isMobile = window.innerWidth < 640; // Definir limite para telas pequenas (sm)
+    const cardWidth = isMobile ? 0 : carouselContainer.offsetWidth * 0.9; // Largura do card no desktop
+    const maxScroll = carousel.scrollWidth - carouselContainer.offsetWidth;
+
+    scrollPosition = Math.max(0, Math.min(scrollPosition, maxScroll));
+    carousel.style.transform = isMobile
+      ? '' // Não aplica deslocamento no mobile
+      : `translateX(-${scrollPosition}px)`;
+
+    prevButton.style.display = isMobile ? 'none' : 'block';
+    nextButton.style.display = isMobile ? 'none' : 'block';
+  };
+
+  prevButton.addEventListener('click', () => {
+    const cardWidth = carouselContainer.offsetWidth * 0.9;
+    scrollPosition = Math.max(scrollPosition - cardWidth, 0);
+    updateCarousel();
+  });
+
+  nextButton.addEventListener('click', () => {
+    const cardWidth = carouselContainer.offsetWidth * 0.9;
+    const maxScroll = carousel.scrollWidth - carouselContainer.offsetWidth;
+    scrollPosition = Math.min(scrollPosition + cardWidth, maxScroll);
+    updateCarousel();
+  });
+
+  window.addEventListener('resize', updateCarousel);
+  updateCarousel();
+</script>

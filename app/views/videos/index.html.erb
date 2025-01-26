@@ -1,0 +1,134 @@
+<br><br>
+<div class="container mx-auto px-4 py-8 bg-gray-800 bg-opacity-90 rounded-lg shadow-lg">
+  <!-- Título da página -->
+  <h1 class="page-title text-4xl font-bold text-center text-white mb-6">Lives Ativas</h1>
+
+  <!-- Botão para adicionar novo vídeo -->
+  <div class="button-wrapper text-center mb-8">
+    <a href="<%= new_video_path %>" class="btn-primary">Nova Live</a>
+  </div>
+
+  <!-- Verificação se há vídeos -->
+  <% if @videos.any? %>
+    <!-- Grid Responsivo para Exibir os Vídeos -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <% @videos.each do |video| %>
+        <div class="card bg-gray-700 bg-opacity-90 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
+          <!-- Título do vídeo -->
+          <h2 class="card-title text-red-400 text-lg font-semibold mb-4 text-center">
+            <a href="<%= video_path(video) %>" class="link-title hover:underline"><%= video.title %></a>
+          </h2>
+
+          <!-- Descrição curta do vídeo -->
+          <p class="card-description text-sm text-gray-300 mb-4 text-center">
+            <%= truncate(video.description, length: 80) %>
+          </p>
+
+          <!-- Embed do vídeo -->
+          <center>
+          <div class="embed-wrapper relative w-full h-0 pb-[56.25%] mb-4">
+           <div class="embed-content absolute top-0 left-0 w-full h-full">
+    <%= raw(video.embed_code.gsub('width="560"', 'width="400"').gsub('height="315"', 'height="225"')) %>
+  </div>
+          </div>
+          </center>
+          <!-- Botões de ação (Editar e Excluir) -->
+          <% if video.user == current_user %>
+            <div class="card-actions flex justify-between items-center">
+              <!-- Botão Editar -->
+              <a href="<%= edit_video_path(video) %>" class="btn-edit">Editar</a>
+
+              <!-- Formulário de Excluir -->
+              <%= form_with url: video_path(video), method: :delete, 
+                            data: { confirm: "Tem certeza que deseja excluir este vídeo?" }, 
+                            class: "inline" do |form| %>
+                <input type="submit" value="Excluir" class="btn-delete">
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="no-videos-message text-lg text-center text-gray-400 mt-8">Não há vídeos para exibir.</p>
+  <% end %>
+</div>
+
+
+
+<style>
+/* Botão Primário (Adicionar Novo Vídeo) */
+.btn-primary {
+  display: inline-block;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b); /* Gradiente quente */
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 12px 24px;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, #ff6a5a, #fd9e6b); /* Gradiente no hover */
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Botão Editar */
+.btn-edit {
+  background: linear-gradient(90deg, #43cea2, #185a9d); /* Gradiente verde-azul */
+  color: white;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-edit:hover {
+  background: linear-gradient(90deg, #3bbd92, #154f89); /* Gradiente no hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-edit:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Botão Excluir */
+.btn-delete {
+  background: linear-gradient(90deg, #ff6b6b, #c0392b); /* Gradiente vermelho */
+  color: white;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-delete:hover {
+  background: linear-gradient(90deg, #e74c3c, #992d22); /* Gradiente no hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-delete:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+</style>

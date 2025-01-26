@@ -1,0 +1,69 @@
+<br><br>
+<h1 class="text-center text-white font-bold text-2xl mb-8">Editar Configuração</h1>
+<div class="max-w-4xl mx-auto bg-black/60 backdrop-blur-lg p-8 rounded-lg shadow-2xl border border-gray-800">
+  <%= form_with model: @user_config, local: true, class: "space-y-6" do |form| %>
+
+    <!-- Campo de Nome do Bot -->
+    <div>
+      <%= form.label :nome_bot, "Nome do Bot", class: "block text-white font-semibold text-lg mb-2" %>
+      <%= form.text_field :nome_bot, value: @user_config.nome_bot, class: "w-full p-3 bg-gray-500 text-white placeholder-gray-300 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+    </div>
+
+    <!-- Campo de Temperatura -->
+   <div>
+  <%= form.label :temperatura, "Emoção", class: "block text-white font-semibold text-lg mb-2" %>
+  <%= form.select :temperatura, 
+        options_for_select([
+          ["Feliz", "feliz"],
+          ["Triste", "triste"],
+          ["Ansioso", "ansioso"],
+          ["Calmo", "calmo"],
+          ["Bravo", "bravo"]
+        ]), 
+        { prompt: "Selecione uma emoção" }, 
+        class: "w-full p-3 text-white bg-white/20 placeholder-gray-300 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+</div>
+
+    <!-- Finalidade -->
+    <div>
+      <%= form.label :finalidade, "Finalidade", class: "block text-white font-semibold text-lg mb-2" %>
+      <%= form.text_field :finalidade, value: @user_config.finalidade, class: "w-full p-3 bg-gray-500 text-white placeholder-gray-300 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" %>
+    </div>
+
+    <!-- Base de Dados -->
+    <div>
+      <%= form.label :base_de_dados, "Base de Dados", class: "block text-white font-semibold text-lg mb-2" %>
+      <%= form.text_area :base_de_dados, value: @user_config.base_de_dados, rows: 4, class: "w-full p-3 bg-gray-500 text-white placeholder-gray-300 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    </div>
+
+    <!-- Estrutura de Desejo -->
+    <div>
+      <%= form.label :estrutura_desejo, "Estrutura de Desejo", class: "block text-white font-semibold text-lg mb-2" %>
+      <%= form.text_area :estrutura_desejo, value: @user_config.estrutura_desejo, rows: 4, class: "w-full p-3 bg-gray-500 text-white placeholder-gray-300 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" %>
+    </div>
+
+    <!-- Exemplo de Referência -->
+    <div>
+      <%= form.label :exemplo_referencia, "Exemplo de Referência", class: "block text-white font-semibold text-lg mb-2" %>
+      <%= form.text_area :exemplo_referencia, value: @user_config.exemplo_referencia, rows: 4, class: "w-full p-3 bg-gray-500 text-white placeholder-gray-300 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" %>
+    </div>
+
+    <!-- Input -->
+    <div>
+      <%= form.label :input, "Input", class: "block text-white font-semibold text-lg mb-2" %>
+      <%= form.text_area :input, value: @user_config.input, rows: 4, class: "w-full p-3 bg-gray-500 text-white placeholder-gray-300 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" %>
+    </div>
+
+    <!-- Imagem -->
+    <div>
+      <%= form.label :imagem, "Imagem do Bot", class: "block text-white font-semibold text-lg mb-2" %>
+      <%= form.file_field :imagem, class: "w-full p-3 bg-gray-500 text-gray-300 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500" %>
+    </div>
+
+    <!-- Botão de Atualizar -->
+    <div class="text-center">
+      <%= form.submit "Atualizar", class: "w-full py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 shadow-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-400" %>
+    </div>
+
+  <% end %>
+</div>

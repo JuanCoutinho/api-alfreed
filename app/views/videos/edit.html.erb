@@ -1,0 +1,36 @@
+<br><br>
+<h1>Editar Vídeo</h1>
+
+<%= form_with(model: @video, local: true) do |form| %>
+  <% if @video.errors.any? %>
+    <div class="bg-red-600 text-white p-4 rounded-md mb-4">
+      <h2 class="font-semibold"><%= pluralize(@video.errors.count, "erro") %> proibiu este vídeo de ser salvo:</h2>
+      <ul class="list-disc pl-5">
+        <% @video.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= form.label :title, class: "text-white text-sm font-medium" %>
+    <%= form.text_field :title, class: "w-full p-3 mt-1 bg-gray-800 text-white border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :description, class: "text-white text-sm font-medium" %>
+    <%= form.text_area :description, class: "w-full p-3 mt-1 bg-gray-800 text-white border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :embed_code, class: "text-white text-sm font-medium" %>
+    <%= form.text_area :embed_code, class: "w-full p-3 mt-1 bg-gray-800 text-white border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+  </div>
+
+  <div class="mt-6">
+    <%= form.submit "Atualizar Vídeo", class: "w-full p-3 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+  </div>
+<% end %>
+
+<%= link_to 'Voltar', video_path(@video), class: "inline-block mt-4 text-indigo-400 hover:text-indigo-500" %>

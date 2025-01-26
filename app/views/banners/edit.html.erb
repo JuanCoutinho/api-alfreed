@@ -1,0 +1,45 @@
+<br><br><br><h1 class="text-4xl font-extrabold text-center text-white mb-8">Editar Banner</h1>
+
+<div class="max-w-3xl mx-auto bg-black/60 backdrop-blur-lg p-8 rounded-lg shadow-2xl border border-gray-800">
+  <%= form_with(model: @banner, local: true, html: { multipart: true }, class: "space-y-6") do |form| %>
+
+    <!-- Exibição de erros -->
+    <% if @banner.errors.any? %>
+      <div class="mb-6 p-4 bg-red-600 text-white rounded-lg shadow-md">
+        <h2 class="font-semibold text-lg mb-2">Erros encontrados:</h2>
+        <ul class="list-disc list-inside text-sm">
+          <% @banner.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Campo Imagem -->
+    <div>
+      <%= form.label :image, "Imagem do Banner", class: "block text-gray-300 font-semibold mb-2" %>
+      <%= form.file_field :image, class: "w-full text-gray-300 file:bg-gray-700 file:text-white file:border-none file:py-2 file:px-4 file:rounded-lg file:hover:bg-gray-600 file:cursor-pointer bg-gray-800 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+    </div>
+
+    <!-- Campo Link -->
+    <div>
+      <%= form.label :link, "Link do Banner", class: "block text-gray-300 font-semibold mb-2" %>
+      <%= form.text_field :link, class: "w-full bg-gray-800 text-gray-300 placeholder-gray-500 border border-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    </div>
+
+    <!-- Botões: Atualizar e Excluir -->
+    <div class="flex justify-between items-center mt-6">
+      <!-- Botão Atualizar -->
+      <div class="flex-1 mr-2">
+        <%= form.submit "Atualizar Banner", class: "w-full py-3 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300" %>
+      </div>
+
+   
+    </div>
+  <% end %>
+
+  <!-- Link para voltar -->
+  <div class="mt-6 text-center">
+    <%= link_to "Voltar", banners_path, class: "inline-block text-indigo-400 hover:text-indigo-500 underline font-semibold transition duration-300" %>
+  </div>
+</div>
